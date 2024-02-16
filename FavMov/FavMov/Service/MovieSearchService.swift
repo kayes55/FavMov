@@ -10,10 +10,12 @@ import Combine
 
 class MovieSearchService: ObservableObject {
     @Published var searchResults: [Movie] = []
+    @Published var error: NetworkError?
     private var cancellable: AnyCancellable?
     
     private func fetchData<T: Decodable>(from url: URL, decodingTo type: T.Type) -> AnyPublisher<T, Error> {
         return URLSession.shared.dataTaskPublisher(for: url)
+            .receive(on: DispatchQueue.main)
             .tryMap { data, response in
                 guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
                     throw NetworkError.serverError(description: "Invalid server response")
@@ -26,6 +28,7 @@ class MovieSearchService: ObservableObject {
                 case URLError.badURL, URLError.unsupportedURL:
                     return NetworkError.invalidURL
                 case URLError.notConnectedToInternet:
+                    self.error = .notConnectedToInternet
                     return NetworkError.notConnectedToInternet
                 default:
                     return NetworkError.serverError(description: error.localizedDescription)
@@ -55,4 +58,8 @@ class MovieSearchService: ObservableObject {
                 self?.searchResults = searchResults.results
             })
     }
+    
+    func clearError() {
+            error = nil
+        }
 }

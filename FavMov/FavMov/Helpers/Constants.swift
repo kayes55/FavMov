@@ -29,6 +29,9 @@ struct Constants {
         static let defaultTitle = "Oops"
         static let defaultButtonTitle = "OK"
         static let tryAgainButtonTitle = "Try Again"
+        static let noNetwork = "Not Connected To Internet!"
+        static let serverError = "Server Error!"
+        static let unsupportedURL = "URL is not supported!"
     }
     struct Identifiers {
         static let MovieCell = "MovieCell"

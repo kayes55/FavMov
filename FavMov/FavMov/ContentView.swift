@@ -10,12 +10,20 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var movService = MovieSearchService()
     @State private var searchText = ""
+    @State private var showAlert: Bool = false
         
     var body: some View {
         NavigationView {
             ZStack {
                 if movService.searchResults.isEmpty {
-                    Text("Search a movie")
+                    HStack {
+                        Image(systemName: "film")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text(Constants.Search.placeholder)
+                            .font(.headline)
+                    }
+                    
                 }
                 List(movService.searchResults) { result in
                     MovieCellView(movie: result)
@@ -25,6 +33,11 @@ struct ContentView: View {
                 .onChange(of: searchText) { _ in
                     movService.search(query: searchText)
                 }
+            }
+            .alert(item: $movService.error) { error in
+                Alert(title: Text("Warning!"), message: Text(error.id), dismissButton: .default(Text("OK")) {
+                    movService.clearError()
+                })
             }
             
         }

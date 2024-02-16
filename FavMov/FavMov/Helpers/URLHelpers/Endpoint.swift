@@ -16,9 +16,6 @@ protocol Endpoint {
 
 extension Endpoint {
     
-    // The Movies Database API
-    // Docs: https://developers.themoviedb.org/3/getting-started/introduction
-    
     var completeUrl: URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
