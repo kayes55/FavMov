@@ -26,6 +26,7 @@ struct AsyncImageView<Placeholder: View>: View {
                 .resizable()
                 .frame(width: 80, height: 120)
                 .aspectRatio(contentMode: .fit)
+                
         } else {
             placeholder
         }

@@ -31,16 +31,15 @@ class MovieSearchService: ObservableObject {
                     return NetworkError.serverError(description: error.localizedDescription)
                 }
             }
-//            .map { $0.data }
             .decode(type: T.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
     
     func search(query: String) {
         cancellable?.cancel()
-        
-        let baseURL = "https://api.themoviedb.org/3/search/movie?api_key=38e61227f85671163c275f9bd95a8803"
-        let url = URL(string: "\(baseURL)&query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")")!
+        guard let url = MoviesEndpoint.searchMovie(query: query).completeUrl else {
+            return
+        }
         
         cancellable = fetchData(from: url, decodingTo: Movies.self)
             .mapError { _ in NetworkError.decodingError } // Handling decoding errors
@@ -54,7 +53,6 @@ class MovieSearchService: ObservableObject {
                 }
             }, receiveValue: { [weak self] searchResults in
                 self?.searchResults = searchResults.results
-                print("search results \(String(describing: self?.searchResults.count))")
             })
     }
 }

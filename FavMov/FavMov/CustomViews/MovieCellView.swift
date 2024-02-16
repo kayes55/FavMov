@@ -21,6 +21,7 @@ struct MovieCellView: View {
                     .frame(width: 100, height: 150)
                     .cornerRadius(8)
             }
+            .cornerRadius(8.0)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(movie.originalTitle)

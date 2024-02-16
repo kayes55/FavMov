@@ -13,14 +13,14 @@ struct ContentView: View {
         
     var body: some View {
         NavigationView {
-            VStack {
+            ZStack {
                 if movService.searchResults.isEmpty {
                     Text("Search a movie")
                 }
                 List(movService.searchResults) { result in
                     MovieCellView(movie: result)
                 }
-                .navigationTitle("Search")
+                .navigationTitle("Movie List")
                 .searchable(text: $searchText)
                 .onChange(of: searchText) { _ in
                     movService.search(query: searchText)
