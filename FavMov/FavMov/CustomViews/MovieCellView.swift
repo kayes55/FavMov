@@ -12,24 +12,33 @@ struct MovieCellView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "film")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 100, height: 150)
-                .cornerRadius(8)
             
+            AsyncImageView(urlString: self.backdropImageURL(of: movie)) {
+                // Placeholder view
+                Image(systemName: "film")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 150)
+                    .cornerRadius(8)
+            }
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(movie.originalTitle)
                     .font(.headline)
                 Text(movie.overview)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-//                    .lineLimit(2)
             }
             .padding(.trailing, 8)
             
-            Spacer()
         }
         .padding(8)
+    }
+    
+    private func backdropImageURL(of movie: Movie) -> String {
+        guard let posterPath = movie.backdropPath else {
+            return Constants.ApiImageURL.backdropPlaceholder
+        }
+        return Constants.ApiImageURL.highQuality + posterPath
     }
 }
