@@ -3,4 +3,4 @@
 
 ## This is a Test Project Assigned by Brain Station-23 team
 ### Screen Record
-![Movie List App](https://github.com/kayes55/FavMov/blob/main/bs-23.gif)
+![Movie List App](https://github.com/kayes55/FavMov/blob/main/movApp.mp4)
