@@ -14,8 +14,11 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                if movService.searchResults.isEmpty {
+                    Text("Search a movie")
+                }
                 List(movService.searchResults) { result in
-                    Text("Search result: \(result.id)")
+                    MovieCellView(movie: result)
                 }
                 .navigationTitle("Search")
                 .searchable(text: $searchText)
