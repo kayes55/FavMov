@@ -8,14 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var movService = MovieSearchService()
+    @State private var searchText = ""
+        
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+                List(movService.searchResults) { result in
+                    Text("Search result: \(result.id)")
+                }
+                .navigationTitle("Search")
+                .searchable(text: $searchText)
+                .onChange(of: searchText) { _ in
+                    movService.search(query: searchText)
+                }
+            }
+            
         }
-        .padding()
+        
     }
 }
 
